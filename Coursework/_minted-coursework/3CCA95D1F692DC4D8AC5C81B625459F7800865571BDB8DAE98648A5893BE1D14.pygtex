@@ -1,0 +1,54 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{math}
+
+\PYG{k}{def} \PYG{n+nf}{task5}\PYG{p}{(}\PYG{n}{arr}\PYG{p}{,} \PYG{n}{k}\PYG{p}{):}
+    \PYG{n}{alice\PYGZus{}and\PYGZus{}bob} \PYG{o}{=} \PYG{p}{[]}
+    \PYG{n}{alice} \PYG{o}{=} \PYG{p}{[]}
+    \PYG{n}{bob} \PYG{o}{=} \PYG{p}{[]}
+    \PYG{k}{for} \PYG{n}{item} \PYG{o+ow}{in} \PYG{n}{arr}\PYG{p}{:}
+        \PYG{k}{if} \PYG{n}{item}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o+ow}{and} \PYG{n}{item}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{]:}
+            \PYG{n}{alice\PYGZus{}and\PYGZus{}bob}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{item}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{])}
+        \PYG{k}{elif} \PYG{n}{item}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o+ow}{and} \PYG{o+ow}{not} \PYG{n}{item}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{]:}
+            \PYG{n}{alice}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{item}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{])}
+        \PYG{k}{elif} \PYG{o+ow}{not} \PYG{n}{item}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o+ow}{and} \PYG{n}{item}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{]:}
+            \PYG{n}{bob}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{item}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{])}
+    \PYG{n}{alice\PYGZus{}and\PYGZus{}bob}\PYG{o}{.}\PYG{n}{sort}\PYG{p}{()}
+    \PYG{n}{alice}\PYG{o}{.}\PYG{n}{sort}\PYG{p}{()}
+    \PYG{n}{bob}\PYG{o}{.}\PYG{n}{sort}\PYG{p}{()}
+    \PYG{n}{minsum} \PYG{o}{=} \PYG{n}{math}\PYG{o}{.}\PYG{n}{inf}
+    \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}
+    \PYG{k}{while} \PYG{n}{i} \PYG{o}{\PYGZlt{}=} \PYG{n}{k}\PYG{p}{:}
+        \PYG{n}{books\PYGZus{}left} \PYG{o}{=} \PYG{n}{k} \PYG{o}{\PYGZhy{}} \PYG{n}{i}
+        \PYG{n}{ab\PYGZus{}arr} \PYG{o}{=} \PYG{n}{alice\PYGZus{}and\PYGZus{}bob}\PYG{p}{[:}\PYG{n}{i}\PYG{p}{]} \PYG{c+c1}{\PYGZsh{} alice and bob}
+        \PYG{n}{a\PYGZus{}arr} \PYG{o}{=} \PYG{n}{alice}\PYG{p}{[:}\PYG{n}{books\PYGZus{}left}\PYG{p}{]} \PYG{c+c1}{\PYGZsh{} only alice}
+        \PYG{n}{b\PYGZus{}arr} \PYG{o}{=} \PYG{n}{bob}\PYG{p}{[:}\PYG{n}{books\PYGZus{}left}\PYG{p}{]} \PYG{c+c1}{\PYGZsh{} only bob}
+        \PYG{n}{k1} \PYG{o}{=} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{ab\PYGZus{}arr}\PYG{p}{)} \PYG{o}{+} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{a\PYGZus{}arr}\PYG{p}{)}
+        \PYG{n}{k2} \PYG{o}{=} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{ab\PYGZus{}arr}\PYG{p}{)} \PYG{o}{+} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{b\PYGZus{}arr}\PYG{p}{)}
+        \PYG{n}{current\PYGZus{}sum} \PYG{o}{=} \PYG{n+nb}{sum}\PYG{p}{(}\PYG{n}{ab\PYGZus{}arr}\PYG{p}{)} \PYG{o}{+} \PYG{n+nb}{sum}\PYG{p}{(}\PYG{n}{b\PYGZus{}arr}\PYG{p}{)} \PYG{o}{+} \PYG{n+nb}{sum}\PYG{p}{(}\PYG{n}{a\PYGZus{}arr}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n}{k1} \PYG{o}{==} \PYG{n}{k2} \PYG{o}{==} \PYG{n}{k} \PYG{o+ow}{and} \PYG{n}{current\PYGZus{}sum} \PYG{o}{\PYGZlt{}} \PYG{n}{minsum}\PYG{p}{:}
+            \PYG{n}{minsum} \PYG{o}{=} \PYG{n}{current\PYGZus{}sum}
+        \PYG{n}{i} \PYG{o}{+=} \PYG{l+m+mi}{1}
+    \PYG{k}{if} \PYG{n}{minsum} \PYG{o}{==} \PYG{n}{math}\PYG{o}{.}\PYG{n}{inf}\PYG{p}{:}
+        \PYG{k}{return} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}
+    \PYG{k}{return} \PYG{n}{minsum}
+
+    \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{alice\PYGZus{}and\PYGZus{}bob}\PYG{p}{)):}
+        \PYG{n}{books\PYGZus{}left} \PYG{o}{=} \PYG{n}{k} \PYG{o}{\PYGZhy{}} \PYG{n}{i}
+        \PYG{k}{if} \PYG{n}{i} \PYG{o}{\PYGZgt{}} \PYG{n}{k}\PYG{p}{:}
+            \PYG{k}{break}
+        \PYG{k}{if} \PYG{n}{books\PYGZus{}left} \PYG{o}{\PYGZgt{}} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{alice}\PYG{p}{)} \PYG{o+ow}{or} \PYG{n}{books\PYGZus{}left} \PYG{o}{\PYGZgt{}} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{bob}\PYG{p}{):}
+            \PYG{k}{continue}
+        \PYG{n}{current\PYGZus{}sum} \PYG{o}{=} \PYG{n+nb}{sum}\PYG{p}{(}\PYG{n}{alice\PYGZus{}and\PYGZus{}bob}\PYG{p}{[:}\PYG{n}{i} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{])}
+	\PYG{o}{+} \PYG{n+nb}{sum}\PYG{p}{(}\PYG{n}{alice}\PYG{p}{[:}\PYG{n}{books\PYGZus{}left} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{])} \PYG{o}{+} \PYG{n+nb}{sum}\PYG{p}{(}\PYG{n}{bob}\PYG{p}{[:}\PYG{n}{books\PYGZus{}left} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{])}
+        \PYG{n}{minsum} \PYG{o}{=} \PYG{n}{current\PYGZus{}sum} \PYG{k}{if} \PYG{n}{current\PYGZus{}sum} \PYG{o}{\PYGZlt{}} \PYG{n}{minsum} \PYG{k}{else} \PYG{n}{minsum}
+    \PYG{k}{return} \PYG{n}{minsum}
+
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Ввод:\PYGZdq{}}\PYG{p}{)}
+\PYG{p}{[}\PYG{n}{n}\PYG{p}{,} \PYG{n}{k}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb}{input}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}n, k = \PYGZdq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{split}\PYG{p}{()}
+\PYG{n}{arr} \PYG{o}{=} \PYG{p}{[]}
+\PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{int}\PYG{p}{(}\PYG{n}{n}\PYG{p}{)):}
+    \PYG{p}{[}\PYG{n}{t}\PYG{p}{,} \PYG{n}{a}\PYG{p}{,} \PYG{n}{b}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb}{input}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}t, a, b = \PYGZdq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{split}\PYG{p}{()}
+    \PYG{n}{arr}\PYG{o}{.}\PYG{n}{append}\PYG{p}{([}\PYG{n+nb}{int}\PYG{p}{(}\PYG{n}{t}\PYG{p}{),} \PYG{n+nb}{int}\PYG{p}{(}\PYG{n}{a}\PYG{p}{),} \PYG{n+nb}{int}\PYG{p}{(}\PYG{n}{b}\PYG{p}{)])}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Вывод:\PYGZdq{}}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{task5}\PYG{p}{(}\PYG{n}{arr}\PYG{p}{,} \PYG{n+nb}{int}\PYG{p}{(}\PYG{n}{k}\PYG{p}{)))}
+\end{Verbatim}

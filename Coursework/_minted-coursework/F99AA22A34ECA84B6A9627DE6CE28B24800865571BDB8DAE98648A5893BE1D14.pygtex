@@ -1,0 +1,49 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{math}
+
+\PYG{c+c1}{\PYGZsh{} 1 решение}
+\PYG{k}{def} \PYG{n+nf}{task6}\PYG{p}{(}\PYG{n}{arr}\PYG{p}{,} \PYG{n}{a}\PYG{p}{,} \PYG{n}{b}\PYG{p}{):}
+    \PYG{n}{arr}\PYG{o}{.}\PYG{n}{insert}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{)}
+    \PYG{n}{capital} \PYG{o}{=} \PYG{l+m+mi}{0}
+    \PYG{n}{ret} \PYG{o}{=} \PYG{l+m+mi}{0}
+    \PYG{k}{for} \PYG{n}{target} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{arr}\PYG{p}{)):}
+        \PYG{n}{mincost} \PYG{o}{=} \PYG{n}{math}\PYG{o}{.}\PYG{n}{inf}
+        \PYG{n}{saved\PYGZus{}capital} \PYG{o}{=} \PYG{n}{capital}
+        \PYG{k}{for} \PYG{n}{new\PYGZus{}capital} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{target}\PYG{p}{):}
+            \PYG{n}{curr\PYGZus{}cost} \PYG{o}{=} \PYG{n}{a} \PYG{o}{*} \PYG{n+nb}{abs}\PYG{p}{(}\PYG{n}{arr}\PYG{p}{[}\PYG{n}{new\PYGZus{}capital}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{n}{arr}\PYG{p}{[}\PYG{n}{capital}\PYG{p}{])}
+		\PYG{o}{+} \PYG{n}{b} \PYG{o}{*} \PYG{n+nb}{abs}\PYG{p}{(}\PYG{n}{arr}\PYG{p}{[}\PYG{n}{new\PYGZus{}capital}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{n}{arr}\PYG{p}{[}\PYG{n}{target}\PYG{p}{])}
+            \PYG{k}{if} \PYG{n}{mincost} \PYG{o}{\PYGZgt{}} \PYG{n}{curr\PYGZus{}cost}\PYG{p}{:}
+                \PYG{n}{mincost} \PYG{o}{=} \PYG{n}{curr\PYGZus{}cost}
+                \PYG{n}{saved\PYGZus{}capital} \PYG{o}{=} \PYG{n}{new\PYGZus{}capital}
+        \PYG{n}{capital} \PYG{o}{=} \PYG{n}{saved\PYGZus{}capital}
+        \PYG{n}{ret} \PYG{o}{+=} \PYG{n}{mincost}
+    \PYG{k}{return} \PYG{n}{ret}
+
+\PYG{c+c1}{\PYGZsh{} 2 решение}
+\PYG{k}{def} \PYG{n+nf}{\PYGZus{}\PYGZus{}t6}\PYG{p}{(}\PYG{n}{arr}\PYG{p}{,} \PYG{n}{a}\PYG{p}{,} \PYG{n}{b}\PYG{p}{,} \PYG{n}{capital}\PYG{p}{,} \PYG{n}{target}\PYG{p}{,} \PYG{n}{accum}\PYG{p}{,} \PYG{n}{result}\PYG{p}{):}
+    \PYG{k}{if} \PYG{n}{target} \PYG{o}{==} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{arr}\PYG{p}{):}
+        \PYG{n}{result}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{accum}\PYG{p}{)}
+        \PYG{k}{return}
+    \PYG{k}{for} \PYG{n}{new\PYGZus{}capital} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{target}\PYG{p}{):}
+        \PYG{n}{inc\PYGZus{}cost} \PYG{o}{=} \PYG{n}{a} \PYG{o}{*} \PYG{n+nb}{abs}\PYG{p}{(}\PYG{n}{arr}\PYG{p}{[}\PYG{n}{new\PYGZus{}capital}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{n}{arr}\PYG{p}{[}\PYG{n}{capital}\PYG{p}{])}
+	\PYG{o}{+} \PYG{n}{b} \PYG{o}{*} \PYG{n+nb}{abs}\PYG{p}{(}\PYG{n}{arr}\PYG{p}{[}\PYG{n}{new\PYGZus{}capital}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{n}{arr}\PYG{p}{[}\PYG{n}{target}\PYG{p}{])}
+        \PYG{n}{\PYGZus{}\PYGZus{}t6}\PYG{p}{(}\PYG{n}{arr}\PYG{p}{,} \PYG{n}{a}\PYG{p}{,} \PYG{n}{b}\PYG{p}{,} \PYG{n}{new\PYGZus{}capital}\PYG{p}{,} \PYG{n}{target} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{accum} \PYG{o}{+} \PYG{n}{inc\PYGZus{}cost}\PYG{p}{,} \PYG{n}{result}\PYG{p}{)}
+
+\PYG{k}{def} \PYG{n+nf}{t6}\PYG{p}{(}\PYG{n}{arr}\PYG{p}{,} \PYG{n}{a}\PYG{p}{,} \PYG{n}{b}\PYG{p}{):}
+    \PYG{n}{arr}\PYG{o}{.}\PYG{n}{insert}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{)}
+    \PYG{n}{result} \PYG{o}{=} \PYG{p}{[]}
+    \PYG{n}{\PYGZus{}\PYGZus{}t6}\PYG{p}{(}\PYG{n}{arr}\PYG{p}{,} \PYG{n}{a}\PYG{p}{,} \PYG{n}{b}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{result}\PYG{p}{)}
+    \PYG{k}{return} \PYG{n+nb}{min}\PYG{p}{(}\PYG{n}{result}\PYG{p}{)}
+
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Ввод:\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{result} \PYG{o}{=} \PYG{p}{[]}
+\PYG{n}{t} \PYG{o}{=} \PYG{n+nb}{int}\PYG{p}{(}\PYG{n+nb}{input}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}t = \PYGZdq{}}\PYG{p}{))}
+\PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{t}\PYG{p}{):}
+    \PYG{p}{[}\PYG{n}{a}\PYG{p}{,} \PYG{n}{b}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb}{input}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}a, b = \PYGZdq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{split}\PYG{p}{()}
+    \PYG{n}{arr} \PYG{o}{=} \PYG{n+nb}{input}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}arr = \PYGZdq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{split}\PYG{p}{()}
+    \PYG{n}{arr} \PYG{o}{=} \PYG{p}{[}\PYG{n+nb}{int}\PYG{p}{(}\PYG{n}{arr}\PYG{p}{[}\PYG{n}{i}\PYG{p}{])} \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{arr}\PYG{p}{))]}
+    \PYG{n}{result}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{t6}\PYG{p}{(}\PYG{n}{arr}\PYG{p}{,} \PYG{n+nb}{int}\PYG{p}{(}\PYG{n}{a}\PYG{p}{),} \PYG{n+nb}{int}\PYG{p}{(}\PYG{n}{b}\PYG{p}{)))}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Вывод:\PYGZdq{}}\PYG{p}{)}
+\PYG{k}{for} \PYG{n}{item} \PYG{o+ow}{in} \PYG{n}{result}\PYG{p}{:}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{item}\PYG{p}{)}
+\end{Verbatim}
