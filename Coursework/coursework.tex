@@ -113,10 +113,10 @@ def task1(arr, k, z):
     maxsum = 0
     for lmoves in range(z + 1):
         rmoves = k - 2 * lmoves
+        sum_rmoves = sum(arr[:rmoves + 1])
         for lrpos in range(rmoves + 1):
-            if lrpos + 1 < len(arr) - 1:
-                tempsum = lmoves * (arr[lrpos] + arr[lrpos + 1])
-		+ sum(arr[:rmoves + 1])
+            if lrpos < len(arr) - 1:
+                tempsum = lmoves * (arr[lrpos] + arr[lrpos + 1]) + sum_rmoves
                 maxsum = tempsum if tempsum > maxsum else maxsum 
     return maxsum
 
@@ -387,6 +387,7 @@ task4(int(n), int(m), int(k), start, end)
 	\textbf{Решение:}
 	\begin{minted}{python}
 import math
+import itertools
 
 def task5(arr, k):
     alice_and_bob = []
@@ -403,31 +404,25 @@ def task5(arr, k):
     alice.sort()
     bob.sort()
     minsum = math.inf 
-    i = 0
-    while i <= k:
+    alice_and_bob.insert(0, 0)
+    alice.insert(0, 0)
+    bob.insert(0, 0)
+    pab = list(itertools.accumulate(alice_and_bob))
+    pa = list(itertools.accumulate(alice))
+    pb = list(itertools.accumulate(bob))
+    for i in range(k + 1):
+        if i not in range(len(alice_and_bob)):
+            break
         books_left = k - i
-        ab_arr = alice_and_bob[:i] # alice and bob
-        a_arr = alice[:books_left] # only alice
-        b_arr = bob[:books_left] # only bob
-        k1 = len(ab_arr) + len(a_arr)
-        k2 = len(ab_arr) + len(b_arr)
-        current_sum = sum(ab_arr) + sum(b_arr) + sum(a_arr)
-        if k1 == k2 == k and current_sum < minsum:
-            minsum = current_sum
-        i += 1
+        if books_left not in range(len(alice)) or
+	books_left not in range(len(bob)):
+            continue
+        
+        if pab[i] + pa[books_left] + pb[books_left] < minsum:
+            minsum = pab[i] + pa[books_left] + pb[books_left]
+
     if minsum == math.inf:
         return -1
-    return minsum
-    
-    for i in range(len(alice_and_bob)):
-        books_left = k - i
-        if i > k:
-            break
-        if books_left > len(alice) or books_left > len(bob):
-            continue
-        current_sum = sum(alice_and_bob[:i + 1]) + sum(alice[:books_left + 1])
-	+ sum(bob[:books_left + 1])
-        minsum = current_sum if current_sum < minsum else minsum
     return minsum
 
 [n, k] = input().split()
