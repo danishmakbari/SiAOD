@@ -115,22 +115,20 @@ def task1(arr, k, z):
         rmoves = k - 2 * lmoves
         for lrpos in range(rmoves + 1):
             if lrpos + 1 < len(arr) - 1:
-                tempsum = lmoves * (arr[lrpos] + arr[lrpos + 1]) +
-		sum(arr[:rmoves + 1])
+                tempsum = lmoves * (arr[lrpos] + arr[lrpos + 1])
+		+ sum(arr[:rmoves + 1])
                 maxsum = tempsum if tempsum > maxsum else maxsum 
     return maxsum
 
-print("Ввод")
-t = int(input("t = "))
+t = int(input())
 results = []
 for i in range(t):
-    [k, z] = input("k, z = ").split()
-    arr = input("arr = ").split()
+    [n, k, z] = input().split()
+    arr = input().split()
     arr = [int(arr[i]) for i in range(len(arr))]
     results.append(task1(arr, int(k), int(z)))
-print("Вывод:")
 for i in range(t):
-    print(results[i])
+    print(results[i])	
 	\end{minted}
 
 
@@ -193,11 +191,10 @@ def task2(arr):
         print((n - 1) * arr[i], end = ' ')
     print()
 
-print("Ввод:")
-arr = input("arr = ").split()
+n = int(input())
+arr = input().split()
 arr = [int(arr[i]) for i in range(len(arr))]
-print("Вывод:")
-task2(arr)
+task2(arr)	
 	\end{minted}
 
 
@@ -284,16 +281,15 @@ def task3(arr):
         sum2 += l[i]
     return max(sum1, sum2)
 
-print("Ввод:")
 res = []
-t = int(input("t = "))
+t = int(input())
 for i in range(t):
-    arr = input("arr = ").split()
+    n = int(input())
+    arr = input().split()
     arr = [int(arr[i]) for i in range(len(arr))]
     res.append(task3(arr))
-print("Вывод:")
 for i in range(t):
-    print(res[i])
+    print(res[i])	
 	\end{minted}
 
 	\section{\textbf{Задача 4}}
@@ -347,20 +343,16 @@ def task4(n, m, k, start, end):
             else:
                 print("R", end = '')
 
-print("Ввод:")
-[n, m, k] = input("n, m, k = ").split()
+[n, m, k] = input().split()
 start = []
 end = []
-print("Начальные позиции:")
 for i in range(int(k)):
     [x, y] = input().split()
     start.append([int(x), int(y)])
-print("Конечные позиции:")
 for i in range(int(k)):
     [x, y] = input().split()
     end.append([int(x), int(y)])
-print("Вывод:")
-task4(int(n), int(m), int(k), start, end)
+task4(int(n), int(m), int(k), start, end)    	
 	\end{minted}
 
 
@@ -433,19 +425,17 @@ def task5(arr, k):
             break
         if books_left > len(alice) or books_left > len(bob):
             continue
-        current_sum = sum(alice_and_bob[:i + 1])
-	+ sum(alice[:books_left + 1]) + sum(bob[:books_left + 1])
+        current_sum = sum(alice_and_bob[:i + 1]) + sum(alice[:books_left + 1])
+	+ sum(bob[:books_left + 1])
         minsum = current_sum if current_sum < minsum else minsum
     return minsum
 
-print("Ввод:")
-[n, k] = input("n, k = ").split()
+[n, k] = input().split()
 arr = []
 for i in range(int(n)):
-    [t, a, b] = input("t, a, b = ").split()
+    [t, a, b] = input().split()
     arr.append([int(t), int(a), int(b)])
-print("Вывод:")
-print(task5(arr, int(k)))
+print(task5(arr, int(k)))	
 	\end{minted}
 
 	\section{\textbf{Задача 6}}
@@ -486,7 +476,7 @@ def task6(arr, a, b):
         saved_capital = capital
         for new_capital in range(target):
             curr_cost = a * abs(arr[new_capital] - arr[capital])
-		+ b * abs(arr[new_capital] - arr[target])
+	    + b * abs(arr[new_capital] - arr[target])
             if mincost > curr_cost:
                 mincost = curr_cost
                 saved_capital = new_capital
@@ -510,17 +500,15 @@ def t6(arr, a, b):
     __t6(arr, a, b, 0, 1, 0, result)
     return min(result)
 
-print("Ввод:")
 result = []
-t = int(input("t = "))
+t = int(input())
 for i in range(t):
-    [a, b] = input("a, b = ").split()
-    arr = input("arr = ").split()
+    [n, a, b] = input().split()
+    arr = input().split()
     arr = [int(arr[i]) for i in range(len(arr))]
     result.append(t6(arr, int(a), int(b)))
-print("Вывод:")
 for item in result:
-    print(item)
+    print(item)	
 	\end{minted}
 
 	\section{\textbf{Задача 7}}
@@ -566,13 +554,14 @@ def task7(a, b):
         result.append(gcd_arr(temp))
     return result
 
-print("Ввод:")
-a = input("a = ").split()
+[n, m] = input().split()
+a = input().split()
 a = [int(a[i]) for i in range(len(a))]
-b = input("b = ").split()
+b = input().split()
 b = [int(b[i]) for i in range(len(b))]
-print("Вывод:")
-print(task7(a, b))
+result = task7(a, b)
+for item in result:
+    print(item, end = ' ')	
 	\end{minted}
 
 	\section{\textbf{Задача 8}}
@@ -638,13 +627,12 @@ def task8(a, b):
         rmax += a[i] * b[i]
     return lmax + result[0] + rmax
 
-print("Ввод:")
-a = input("a = ").split()
+n = int(input())
+a = input().split()
 a = [int(a[i]) for i in range(len(a))]
-b = input("b = ").split()
+b = input().split()
 b = [int(b[i]) for i in range(len(b))]
-print("Вывод:")
-print(task8(a, b))
+print(task8(a, b))	
 	\end{minted}
 
 	\section{\textbf{Задача 9}}
@@ -683,10 +671,8 @@ def task9(A, B, n):
             return "No solution"
     return int(result)
 
-print("Ввод:")
-[A, B, n] = input("A, B, n = ").split()
-print("Вывод:")
-print(task9(int(A), int(B), int(n)))
+[A, B, n] = input().split()
+print(task9(int(A), int(B), int(n)))	
 	\end{minted}
 
 
@@ -735,16 +721,15 @@ def task10(w1):
             bisect.insort(w2, math.floor(item / 2))
     return "YES"
 
-print("Ввод:")
 result = []
-t = int(input("t = "))
+t = int(input())
 for i in range(t):
-    arr = input("arr = ").split()
+    n = int(input())
+    arr = input().split()
     arr = [int(arr[i]) for i in range(len(arr))]
     result.append(task10(arr))
-print("Вывод:")
 for item in result:
-    print(item)
+    print(item)	
 	\end{minted}
 
 	\newpage
