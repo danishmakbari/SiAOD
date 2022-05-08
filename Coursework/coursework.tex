@@ -524,7 +524,6 @@ for item in result:
 \\
 	\textbf{Решение:}
 	\begin{minted}{python}
-# Алгоритм Евклида
 def gcd(a, b):
     while a != 0 and b != 0:
         if a > b:
@@ -533,7 +532,6 @@ def gcd(a, b):
             b = b % a
     return a + b
 
-# НОД всех элементов массива
 def gcd_arr(arr):
     result = arr[0]
     for i in range(1, len(arr)):
@@ -541,12 +539,14 @@ def gcd_arr(arr):
     return result
 
 def task7(a, b):
+    a = list(map(int, a))
+    a.sort()
+    b = list(map(int, b))
+    arr = [a[i] - a[0] for i in range(0, len(a))]
+    gcd_part = gcd_arr(arr)
     result = []
     for j in range(len(b)):
-        temp = []
-        for i in range(len(a)):
-            temp.append(b[j] + a[i])
-        result.append(gcd_arr(temp))
+        result.append(gcd(a[0] + b[j], gcd_part))
     return result
 
 [n, m] = input().split()
@@ -582,45 +582,36 @@ for item in result:
 	\textbf{Решение:}
 	\begin{minted}{python}
 def task8(a, b):
-    maxdiff = 0
-    result = [a[0] * b[0], 0, 0]
+    a.insert(0, 0)
+    b.insert(0, 0)
+    amulb_acc = [0]
+    for i in range(1, len(a)):
+        amulb_acc.append(a[i] * b[i])
+        amulb_acc[i] += amulb_acc[i - 1]
+    maxval = amulb_acc[-1]
+    currmax = maxval
     for mid in range(len(a)):
-        # Для нечетного размера подмассива
         l = mid - 1
         r = mid + 1
-        curr_max = a[mid] * b[mid]
-        curr_rmax = curr_max
-        while l >= 0 and r <= len(a) - 1:
-            curr_max += a[l] * b[l] + a[r] * b[r]
-            curr_rmax += a[r] * b[l] + a[l] * b[r]
-            if curr_rmax - curr_max > maxdiff:
-                maxdiff = curr_rmax - curr_max
-                result = [curr_rmax, l, r]
+        currmax = amulb_acc[-1]
+        while l >= 1 and r <= len(a) - 1:
+            currmax += a[r] * b[l] + a[l] * b[r]
+            currmax -= amulb_acc[r] - amulb_acc[r - 1]
+	    + amulb_acc[l] - amulb_acc[l - 1]
+            maxval = currmax if currmax > maxval else maxval
             l -= 1
             r += 1
-
-        # Для четного размера подмассива
         l = mid
         r = mid + 1
-        curr_max = 0
-        curr_rmax = 0
-        while l >= 0 and r <= len(a) - 1:
-            curr_max += a[l] * b[l] + a[r] * b[r]
-            curr_rmax += a[r] * b[l] + a[l] * b[r]
-            if curr_rmax - curr_max > maxdiff:
-                maxdiff = curr_rmax - curr_max
-                result = [curr_rmax, l, r]
+        currmax = amulb_acc[-1]
+        while l >= 1 and r <= len(a) - 1:
+            currmax += a[r] * b[l] + a[l] * b[r]
+            currmax -= amulb_acc[r] - amulb_acc[r - 1]
+	    + amulb_acc[l] - amulb_acc[l - 1]
+            maxval = currmax if currmax > maxval else maxval
             l -= 1
             r += 1
-    # Ищем сумму левого подмассива
-    lmax = 0
-    for i in range(result[1]):
-        lmax += a[i] * b[i]
-    # Ищем сумму правого подмассива
-    rmax = 0
-    for i in range(result[2] + 1, len(a)):
-        rmax += a[i] * b[i]
-    return lmax + result[0] + rmax
+    return maxval
 
 n = int(input())
 a = input().split()
@@ -653,18 +644,10 @@ A·Xn = B. Разумеется, Царь не собирается дела
 	\textbf{Решение:}
 	\begin{minted}{python}
 def task9(A, B, n):
-    result = 0
-    if A == 0 and B or (A < 0 and B > 0 or B < 0 and A > 0) and n % 2 == 0:
-        return "No solution"
-    elif A == 0 and B == 0:
-        return 5
-    elif (A < 0 and B > 0 or B < 0 and A > 0) and n % 2:
-        result = -((-B / A) ** (1 / n))
-    else:
-        result = (B / A) ** (1 / n)
-    if result != int(result):
-            return "No solution"
-    return int(result)
+    for X in range(-1000, 1001):
+        if A * (X**n) == B:
+            return X
+    return "No solution"
 
 [A, B, n] = input().split()
 print(task9(int(A), int(B), int(n)))	
@@ -697,23 +680,25 @@ print(task9(int(A), int(B), int(n)))
 \\
 	\textbf{Решение:}
 	\begin{minted}{python}
-import bisect
 import math
+import heapq
 
 def task10(w1):
-    w1.sort()
+    w1 = [-item for item in w1]
     w2 = [sum(w1)]
+    heapq.heapify(w1)
+    heapq.heapify(w2)
     
     while len(w1) != 0 and len(w2) != 0:
-        if w1[-1] > w2[-1]:
+        if w1[0] < w2[0]:
             return "NO"
-        elif w1[-1] == w2[-1]:
-            w1.pop(-1)
-            w2.pop(-1)
+        elif w1[0] == w2[0]:
+            heapq.heappop(w1)
+            heapq.heappop(w2)
         else:
-            item = w2.pop(-1)
-            bisect.insort(w2, math.ceil(item / 2))
-            bisect.insort(w2, math.floor(item / 2))
+            item = heapq.heappop(w2)
+            heapq.heappush(w2, math.ceil(item / 2))
+            heapq.heappush(w2, math.floor(item / 2))
     return "YES"
 
 result = []
