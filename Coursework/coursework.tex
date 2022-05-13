@@ -109,6 +109,8 @@
 	\\
 	\textbf{Решение:}
 	\begin{minted}{python}
+import sys
+
 def task1(arr, k, z):
     maxsum = 0
     for lmoves in range(z + 1):
@@ -120,13 +122,33 @@ def task1(arr, k, z):
                 maxsum = tempsum if tempsum > maxsum else maxsum 
     return maxsum
 
-t = int(input())
+print("Ввод данных:")
+t = int(input("t = "))
+if t not in range(1, 10 ** 4 + 1):
+    sys.exit("t должно быть в пределах 1<=t<=10^4")
+nsum = 0
 results = []
 for i in range(t):
-    [n, k, z] = input().split()
-    arr = input().split()
+    n, k, z = input("n, k, z = ").split()
+    n, k, z = int(n), int(k), int(z)
+    nsum += n
+    if nsum > 3 * 10 ** 5:
+        sys.exit("Сумма n по всем наборам входных данных не превосходит 3*10^5")
+    if n not in range(2, 10 ** 5 + 1):
+        sys.exit("n должно быть в пределах 2<=n<=10^5")
+    if k not in range(1, n):
+        sys.exit("k должно быть в пределах 1<=k<=n-1")
+    if z not in range(0, min(5, k) + 1):
+        sys.exit("z должно быть в пределах 0<=z<=min(5, k)")
+    arr = input("Введите массив ").split()
     arr = [int(arr[i]) for i in range(len(arr))]
-    results.append(task1(arr, int(k), int(z)))
+    if n != len(arr):
+        sys.exit("Длина массива не совпадает с n")
+    for item in arr:
+        if item not in range(1, 10 ** 4 + 1):
+            sys.exit("Элементы массива должны быть в пределах 1<=ai<=10^4")
+    results.append(task1(arr, k, z))
+print("Вывод результата:")
 for i in range(t):
     print(results[i])	
 	\end{minted}
@@ -162,39 +184,46 @@ for i in range(t):
 \\
 	\textbf{Решение:}
 	\begin{minted}{python}
+import sys
+    
 def task2(arr):
-    n = len(arr)
+    if len(arr) == 1:
+        return [[1, 1], [-arr[0]], [1, 1], [0], [1, 1], [0]]
     
-    if n == 1:
-        print(1, 1)
-        print(-arr[0])
-        print(1, 1)
-        print(0)
-        print(1, 1)
-        print(0)
-        return
+    result = []
     
-    # step 1
-    print(1, 1)
-    print(-arr[0])
+    result.append([1, 1])
+    result.append([-arr[0]])
     
-    # step 2
-    print(1, n)
-    print(0, end = ' ')
+    result.append([1, n])
+    result.append([0])
     for i in range(1, n):
-        print(-n * arr[i], end = ' ')
-    print()
-    
-    # step 3
-    print(2, n)
+        result[-1].append(-n * arr[i])
+        
+    result.append([2, n])
+    result.append([])
     for i in range(1, n):
-        print((n - 1) * arr[i], end = ' ')
-    print()
+        result[-1].append((n - 1) * arr[i])
+        
+    return result
 
-n = int(input())
-arr = input().split()
+print("Ввод данных:")
+n = int(input("n = "))
+if n not in range(1, 100001):
+    sys.exit("n должно быть в пределах 1<=n<=100000")
+arr = input("Введите массив ").split()
 arr = [int(arr[i]) for i in range(len(arr))]
-task2(arr)	
+if len(arr) != n:
+    sys.exit("Длина массива не совпадает с n")
+for item in arr:
+    if item not in range(-10 ** 9, 10 ** 9 + 1):
+        sys.exit("Элементы массива должны быть в пределах -10^9<=ai<=10^9")
+result = task2(arr)
+print("Вывод результата:")
+for item1 in result:
+    for item2 in item1:
+        print(item2, end=' ')
+    print()	
 	\end{minted}
 
 
@@ -224,16 +253,16 @@ task2(arr)
 \\
 	\textbf{Решение:}
 	\begin{minted}{python}
-from sys import maxsize
+import sys
 
 def maxSubArray(a):
     size = len(a)
-    max_so_far = -maxsize - 1
+    max_so_far = -sys.maxsize - 1
     max_ending_here = 0
     start = 0
     end = 0
     s = 0
-    for i in range(0,size):
+    for i in range(0, size):
         max_ending_here += a[i]
         if max_so_far < max_ending_here:
             max_so_far = max_ending_here
@@ -281,13 +310,28 @@ def task3(arr):
         sum2 += l[i]
     return max(sum1, sum2)
 
+print("Ввод данных:")
 res = []
-t = int(input())
+t = int(input("t = "))
+if t not in range(1, 2 * 10 ** 4 + 1):
+    sys.exit("t должно быть в пределах 1<=t<=2*10^4")
+nsum = 0
 for i in range(t):
-    n = int(input())
-    arr = input().split()
+    n = int(input("n = "))
+    nsum += n
+    if nsum > 2 * 10 ** 5:
+        sys.exit("Сумма n по всем наборам входных данных не превосходит 2*10^5")
+    if n not in range(1, 2 * 10 ** 5 + 1):
+        sys.exit("n должно быть в пределах 1<=n<=2*10^5")
+    arr = input("Введите массив ").split()
     arr = [int(arr[i]) for i in range(len(arr))]
+    if len(arr) != n:
+        sys.exit("Длина массива не совпадает с n")
+    for item in arr:
+        if item not in range(1, 10 ** 9):
+            sys.exit("Элементы массива должны быть в пределах 1<=ai<=10^9")
     res.append(task3(arr))
+print("Вывод результата:")
 for i in range(t):
     print(res[i])	
 	\end{minted}
@@ -328,31 +372,55 @@ for i in range(t):
 \\
 	\textbf{Решение:}
 	\begin{minted}{python}
+import sys
+
 def task4(n, m, k, start, end):
-    print(n + m + n * m - 3)
+    result = ""
     for i in range(n - 1):
-        print("U", end = '')
+        result += "U"
     for i in range(m - 1):
-        print("L", end = '')
+        result += "L"
     for i in range(n):
         if i:
-            print("D", end = '')
+            result += "D"
         for j in range(m - 1):
             if i % 2:
-                print("L", end = '')
+                result += "L"
             else:
-                print("R", end = '')
+                result += "R"
+    return [n + m + n * m - 3, result]
 
-[n, m, k] = input().split()
+print("Ввод данных:")
+n, m, k = input("n, m, k = ").split()
+n, m, k = int(n), int(m), int(k)
+if n not in range(1, 201):
+    sys.exit("n должно быть в пределах 1<=n<=200")
+if m not in range(1, 201):
+    sys.exit("m должно быть в пределах 1<=m<=200")
+if k not in range(1, 201):
+    sys.exit("k должно быть в пределах 1<=k<=200")
 start = []
 end = []
 for i in range(int(k)):
-    [x, y] = input().split()
-    start.append([int(x), int(y)])
+    x, y = input("sx, sy = ").split()
+    x, y = int(x), int(y)
+    if x not in range(1, n + 1):
+        sys.exit("sx должно быть в пределах 1<=sx<=n")
+    if y not in range(1, m + 1):
+        sys.exit("sy должно быть в пределах 1<=sy<=m")
+    start.append([x, y])
 for i in range(int(k)):
-    [x, y] = input().split()
-    end.append([int(x), int(y)])
-task4(int(n), int(m), int(k), start, end)    	
+    x, y = input("fx, fy = ").split()
+    x, y = int(x), int(y)
+    if x not in range(1, n + 1):
+        sys.exit("fx должно быть в пределах 1<=fx<=n")
+    if y not in range(1, m + 1):
+        sys.exit("fy должно быть в пределах 1<=fy<=m")
+    end.append([x, y])
+print("Вывод результата:")
+result = task4(n, m, k, start, end)
+print(result[0])
+print(result[1])	
 	\end{minted}
 
 
@@ -386,51 +454,64 @@ task4(int(n), int(m), int(k), start, end)
 \\
 	\textbf{Решение:}
 	\begin{minted}{python}
+import sys
 import math
 import itertools
 
 def task5(arr, k):
-    alice_and_bob = []
+    alice_bob = []
     alice = []
     bob = []
     for item in arr:
         if item[1] and item[2]:
-            alice_and_bob.append(item[0])
+            alice_bob.append(item[0])
         elif item[1] and not item[2]:
             alice.append(item[0])
         elif not item[1] and item[2]:
             bob.append(item[0])
-    alice_and_bob.sort()
+    alice_bob.sort()
     alice.sort()
     bob.sort()
     minsum = math.inf 
-    alice_and_bob.insert(0, 0)
+    alice_bob.insert(0, 0)
     alice.insert(0, 0)
     bob.insert(0, 0)
-    pab = list(itertools.accumulate(alice_and_bob))
-    pa = list(itertools.accumulate(alice))
-    pb = list(itertools.accumulate(bob))
+    alice_bob = list(itertools.accumulate(alice_bob))
+    alice = list(itertools.accumulate(alice))
+    bob = list(itertools.accumulate(bob))
     for i in range(k + 1):
-        if i not in range(len(alice_and_bob)):
+        if i not in range(len(alice_bob)):
             break
         books_left = k - i
         if books_left not in range(len(alice)) or
 	books_left not in range(len(bob)):
             continue
         
-        if pab[i] + pa[books_left] + pb[books_left] < minsum:
-            minsum = pab[i] + pa[books_left] + pb[books_left]
+        if alice_bob[i] + alice[books_left] + bob[books_left] < minsum:
+            minsum = alice_bob[i] + alice[books_left] + bob[books_left]
 
     if minsum == math.inf:
         return -1
     return minsum
 
-[n, k] = input().split()
+print("Ввод данных:")
+n, k = input("n, k = ").split()
+n, k = int(n), int(k)
+if not 1 <= k <= n <= 2 * 10 ** 5:
+    sys.exit("Несоответствие условию 1<=k<=n<=2*10^5")
 arr = []
 for i in range(int(n)):
-    [t, a, b] = input().split()
-    arr.append([int(t), int(a), int(b)])
-print(task5(arr, int(k)))	
+    t, a, b = input("t, a, b = ").split()
+    t, a, b = int(t), int(a), int(b)
+    if t not in range(1, 10 ** 4 + 1):
+        sys.exit("t должно быть в пределах 1<=t<=10^4")
+    if a != 0 and a != 1:
+        sys.exit("a должно быть в пределах 0<=a<=1")
+    if b != 0 and b != 1:
+        sys.exit("b должно быть в пределах 0<=b<=1")
+    arr.append([t, a, b])
+print("Вывод результата:")
+print(task5(arr, k))	
 	\end{minted}
 
 	\section{\textbf{Задача 6}}
@@ -459,49 +540,51 @@ print(task5(arr, int(k)))
 \\
 	\textbf{Решение:}
 	\begin{minted}{python}
+import sys
 import math
+import itertools
 
-# 1 решение
 def task6(arr, a, b):
     arr.insert(0, 0)
-    capital = 0
-    ret = 0
-    for target in range(1, len(arr)):
-        mincost = math.inf
-        saved_capital = capital
-        for new_capital in range(target):
-            curr_cost = a * abs(arr[new_capital] - arr[capital])
-	    + b * abs(arr[new_capital] - arr[target])
-            if mincost > curr_cost:
-                mincost = curr_cost
-                saved_capital = new_capital
-        capital = saved_capital
-        ret += mincost
-    return ret
-
-# 2 решение
-def __t6(arr, a, b, capital, target, accum, result):
-    if target == len(arr):
-        result.append(accum)
-        return
-    for new_capital in range(target):
-        inc_cost = a * abs(arr[new_capital] - arr[capital])
-	+ b * abs(arr[new_capital] - arr[target])
-        __t6(arr, a, b, new_capital, target + 1, accum + inc_cost, result)
-
-def t6(arr, a, b):
     arr.insert(0, 0)
-    result = []
-    __t6(arr, a, b, 0, 1, 0, result)
-    return min(result)
+    mincost = math.inf
+    arr_acc = list(itertools.accumulate(arr))
+    for i in range(1, len(arr) - 1):
+        cost = a * arr[i] + b * arr_acc[-1] -
+	b * (arr_acc[i - 1] + arr[i] * (len(arr) - i - 1))
+        if cost < mincost:
+            mincost = cost
+    return mincost
 
+print("Ввод данных:")
 result = []
-t = int(input())
+t = int(input("t = "))
+if t not in range(1, 1001):
+    sys.exit("t должно быть в пределах 1<=t<=1000")
+nsum = 0
 for i in range(t):
-    [n, a, b] = input().split()
-    arr = input().split()
+    n, a, b = input("n, a, b = ").split()
+    n, a, b = int(n), int(a), int(b)
+    nsum += n
+    if nsum > 2 * 10 ** 5:
+        sys.exit("Сумма n по всем наборам входных данных не превосходит 2*10^5")
+    if n not in range(1, 2 * 10 ** 5 + 1):
+        sys.exit("n должно быть в пределах 1<=n<=2*10^5")
+    if a not in range(1, 10 ** 5 + 1):
+        sys.exit("a должно быть в пределах 1<=a<=10^5")
+    if b not in range(1, 10 ** 5 + 1):
+        sys.exit("b должно быть в пределах 1<=b<=10^5")
+    arr = input("Введите массив ").split()
     arr = [int(arr[i]) for i in range(len(arr))]
-    result.append(t6(arr, int(a), int(b)))
+    if len(arr) != n:
+        sys.exit("Длина массива не совпадает с n")
+    prev = 0
+    for item in arr:
+        if item <= prev or item not in range(1, 10 ** 8 + 1):
+            sys.exit("Несоответствие условию 1<=x1<x2<...<xn<=10^8")
+        prev = item
+    result.append(task6(arr, a, b))
+print("Вывод результата:")
 for item in result:
     print(item)	
 	\end{minted}
@@ -524,6 +607,8 @@ for item in result:
 \\
 	\textbf{Решение:}
 	\begin{minted}{python}
+import sys
+
 def gcd(a, b):
     while a != 0 and b != 0:
         if a > b:
@@ -549,12 +634,29 @@ def task7(a, b):
         result.append(gcd(a[0] + b[j], gcd_part))
     return result
 
-[n, m] = input().split()
-a = input().split()
+print("Ввод данных:")
+n, m = input("n, m = ").split()
+n, m = int(n), int(m)
+if n not in range(1, 2 * 10 ** 5 + 1):
+    sys.exit("n должно быть в пределах 1<=n<=2*10^5")
+if m not in range(1, 2 * 10 ** 5 + 1):
+    sys.exit("m должно быть в пределах 1<=m<=2*10^5")
+a = input("a = ").split()
 a = [int(a[i]) for i in range(len(a))]
-b = input().split()
+if len(a) != n:
+    sys.exit("Длина массива a не совпадает с n")
+for item in a:
+    if item not in range(1, 10 ** 18 + 1):
+        sys.exit("ai должно быть в пределах 1<=ai<=10^18")
+b = input("b = ").split()
 b = [int(b[i]) for i in range(len(b))]
+if len(b) != m:
+    sys.exit("Длина массива b не совпадает с m")
+for item in b:
+    if item not in range(1, 10 ** 18):
+        sys.exit("bj должно быть в пределах 1<=bj<=10^18")
 result = task7(a, b)
+print("Вывод результата:")
 for item in result:
     print(item, end = ' ')	
 	\end{minted}
@@ -581,6 +683,8 @@ for item in result:
 \\
 	\textbf{Решение:}
 	\begin{minted}{python}
+import sys
+
 def task8(a, b):
     a.insert(0, 0)
     b.insert(0, 0)
@@ -596,8 +700,8 @@ def task8(a, b):
         currmax = amulb_acc[-1]
         while l >= 1 and r <= len(a) - 1:
             currmax += a[r] * b[l] + a[l] * b[r]
-            currmax -= amulb_acc[r] - amulb_acc[r - 1]
-	    + amulb_acc[l] - amulb_acc[l - 1]
+            currmax -= amulb_acc[r] - amulb_acc[r - 1] +
+	    amulb_acc[l] - amulb_acc[l - 1]
             maxval = currmax if currmax > maxval else maxval
             l -= 1
             r += 1
@@ -606,18 +710,32 @@ def task8(a, b):
         currmax = amulb_acc[-1]
         while l >= 1 and r <= len(a) - 1:
             currmax += a[r] * b[l] + a[l] * b[r]
-            currmax -= amulb_acc[r] - amulb_acc[r - 1]
-	    + amulb_acc[l] - amulb_acc[l - 1]
+            currmax -= amulb_acc[r] - amulb_acc[r - 1] +
+	    amulb_acc[l] - amulb_acc[l - 1]
             maxval = currmax if currmax > maxval else maxval
             l -= 1
             r += 1
     return maxval
 
-n = int(input())
-a = input().split()
+print("Ввод данных:")
+n = int(input("n = "))
+if n not in range(1, 5001):
+    sys.exit("n должно быть в пределах 1<=n<=5000")
+a = input("a = ").split()
 a = [int(a[i]) for i in range(len(a))]
-b = input().split()
+if len(a) != n:
+    sys.exit("Длина массива a не совпадает с n")
+for item in a:
+    if item not in range(1, 10 ** 7):
+        sys.exit("ai должно быть в пределах 1<=ai<=10^7")
+b = input("b = ").split()
 b = [int(b[i]) for i in range(len(b))]
+if len(b) != n:
+    sys.exit("Длина массива b не совпадает с n")
+for item in b:
+    if item not in range(1, 10 ** 7):
+        sys.exit("bi должно быть в пределах 1<=bi<=10^7")
+print("Вывод результата:")
 print(task8(a, b))	
 	\end{minted}
 
@@ -643,14 +761,25 @@ A·Xn = B. Разумеется, Царь не собирается дела
 \\
 	\textbf{Решение:}
 	\begin{minted}{python}
+import sys
+
 def task9(A, B, n):
     for X in range(-1000, 1001):
         if A * (X**n) == B:
             return X
     return "No solution"
 
-[A, B, n] = input().split()
-print(task9(int(A), int(B), int(n)))	
+print("Ввод данных:")
+A, B, n = input("A, B, n = ").split()
+A, B, n = int(A), int(B), int(n)
+if A not in range(-1000, 1001):
+    sys.exit("A должно быть в пределах -1000<=A<=1000")
+if B not in range(-1000, 1001):
+    sys.exit("B должно быть в пределах -1000<=B<=1000")
+if n not in range(1, 11):
+    sys.exit("n должно быть в пределах 1<=n<=10")
+print("Вывод результата:")
+print(task9(A, B, n))	
 	\end{minted}
 
 
@@ -682,13 +811,13 @@ print(task9(int(A), int(B), int(n)))
 	\begin{minted}{python}
 import math
 import heapq
+import sys
 
 def task10(w1):
     w1 = [-item for item in w1]
     w2 = [sum(w1)]
     heapq.heapify(w1)
     heapq.heapify(w2)
-    
     while len(w1) != 0 and len(w2) != 0:
         if w1[0] < w2[0]:
             return "NO"
@@ -701,13 +830,28 @@ def task10(w1):
             heapq.heappush(w2, math.floor(item / 2))
     return "YES"
 
+print("Ввод данных:")
 result = []
-t = int(input())
+t = int(input("t = "))
+if t not in range(1, 10 ** 4):
+    sys.exit("t должно быть в пределах 1<=t<=10^4")
+nsum = 0
 for i in range(t):
-    n = int(input())
-    arr = input().split()
+    n = int(input("n = "))
+    nsum += n
+    if nsum > 2 * 10 ** 5:
+        sys.exit("Сумма n по всем наборам входных данных не превосходит 2*10^5")
+    if n not in range(1, 2 * 10 ** 5 + 1):
+        sys.exit("n должно быть в пределах 1<=n<=2*10^5")
+    arr = input("Введите массив ").split()
     arr = [int(arr[i]) for i in range(len(arr))]
+    if len(arr) != n:
+        sys.exit("Длина массива не совпадает с n")
+    for item in arr:
+        if item not in range(1, 10 ** 9):
+            sys.exit("ai должно быть в пределах 1<=ai<=10 ** 9")
     result.append(task10(arr))
+print("Вывод результата:")
 for item in result:
     print(item)	
 	\end{minted}
@@ -717,14 +861,4 @@ for item in result:
 	Я разработал алгоритмы решения десяти задач и реализовал их, используя язык Python.
 
 \end{document}
-
-
-%	\section{\textbf{Задача 10}}
-
-%	\textbf{Решение:}
-%	\begin{minted}{python}
-
-%	\end{minted}
-
-
 
